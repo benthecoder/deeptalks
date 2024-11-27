@@ -70,7 +70,7 @@ export default function QuestionCards() {
     }, 100);
 
     return () => clearInterval(timer);
-  }, [currentQuestionIndex, isPaused, language]);
+  }, [currentQuestionIndex, isPaused, language, goToNextQuestion]);
 
   return (
     <div

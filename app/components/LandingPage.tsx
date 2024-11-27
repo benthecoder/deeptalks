@@ -21,7 +21,7 @@ interface LandingPageProps {
 }
 
 export default function LandingPage({ onStart }: LandingPageProps) {
-  const { bgColor, textColor, mounted } = useColorTransition();
+  const { textColor, mounted } = useColorTransition();
 
   return (
     <motion.div
