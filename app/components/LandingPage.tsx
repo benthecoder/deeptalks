@@ -21,20 +21,19 @@ interface LandingPageProps {
 }
 
 export default function LandingPage({ onStart }: LandingPageProps) {
-  const { textColor, mounted } = useColorTransition();
+  const { textColor, bgColor, mounted } = useColorTransition();
 
   return (
     <motion.div
       initial={{ opacity: 1 }}
       animate={{ opacity: 1 }}
-      className={`min-h-screen flex flex-col items-center justify-center p-6 sm:p-8 ${styles.transition}`}
-      style={
-        mounted
-          ? {
-              ...USER_SELECT_STYLES,
-            }
-          : {}
-      }
+      className={`min-h-screen flex flex-col items-center justify-center p-6 sm:p-8 bg-grain ${styles.transition}`}
+      style={{
+        backgroundColor: bgColor,
+        color: textColor,
+        transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+        ...(mounted ? USER_SELECT_STYLES : {}),
+      }}
     >
       <motion.div
         initial={{ y: 10 }}
