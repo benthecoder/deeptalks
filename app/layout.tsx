@@ -5,21 +5,53 @@ import { Inter } from 'next/font/google';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'Reflections | Elevate Your Conversations',
+  title: 'deeptalks',
   description:
     'Discover profound questions that spark meaningful dialogues and deep self-reflection.',
+  metadataBase: new URL('https://deeptalks.vercel.app'),
   openGraph: {
-    title: 'Reflections | Elevate Your Conversations',
+    title: 'deeptalks',
     description:
       'Discover profound questions that spark meaningful dialogues and deep self-reflection.',
-    images: [{ url: '/og-image.png' }],
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://deeptalks.vercel.app',
+    siteName: 'deeptalks',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'deeptalks',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Reflections | Elevate Your Conversations',
+    title: 'deeptalks',
     description:
       'Discover profound questions that spark meaningful dialogues and deep self-reflection.',
-    images: ['/og-image.png'],
+    creator: '@benxneo',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'deeptalks',
+      },
+    ],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+  },
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
   },
 };
 
