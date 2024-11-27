@@ -13,18 +13,15 @@ export default function QuestionCards() {
   const [progress, setProgress] = useState(0);
   const [colorIndex, setColorIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [isHolding, setIsHolding] = useState(false);
   const [mouseDownTime, setMouseDownTime] = useState(0);
 
   const handleMouseDown = () => {
     setIsPaused(true);
-    setIsHolding(true);
     setMouseDownTime(Date.now());
   };
 
   const handleMouseUp = () => {
     setIsPaused(false);
-    setIsHolding(false);
 
     // If mouse was down for less than 200ms, consider it a click
     const isClick = Date.now() - mouseDownTime < 200;

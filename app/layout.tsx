@@ -5,6 +5,11 @@ import { Analytics } from '@vercel/analytics/react';
 
 const inter = Inter({ subsets: ['latin'] });
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+};
+
 export const metadata = {
   title: 'deeptalks',
   description:
@@ -45,10 +50,6 @@ export const metadata = {
   robots: {
     index: true,
     follow: true,
-  },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
   },
   icons: {
     icon: '/favicon.ico',
