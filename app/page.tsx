@@ -34,6 +34,7 @@ export default function QuestionCards() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [progress, setProgress] = useState(0);
   const [colorIndex, setColorIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false); // Add this line
 
   const getRandomIndex = (max: number, exclude: number): number => {
     let newIndex;
@@ -51,7 +52,18 @@ export default function QuestionCards() {
     setProgress(0);
   };
 
+  // Add these mouse event handlers
+  const handleMouseDown = () => {
+    setIsPaused(true);
+  };
+
+  const handleMouseUp = () => {
+    setIsPaused(false);
+  };
+
   useEffect(() => {
+    if (isPaused) return;
+
     const timer = setInterval(() => {
       setProgress((oldProgress) => {
         if (oldProgress === 100) {
@@ -68,7 +80,7 @@ export default function QuestionCards() {
     }, 100);
 
     return () => clearInterval(timer);
-  }, [currentQuestionIndex]);
+  }, [currentQuestionIndex, isPaused]);
 
   const [bgColor, textColor] = colorPairs[colorIndex];
 
@@ -76,10 +88,19 @@ export default function QuestionCards() {
     <div
       className={`min-h-screen flex flex-col items-center justify-center p-4 overflow-hidden cursor-pointer bg-grain ${inter.className}`}
       onClick={goToNextQuestion}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
+      onTouchStart={handleMouseDown}
+      onTouchEnd={handleMouseUp}
       style={{
         backgroundColor: bgColor,
         color: textColor,
         transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+        userSelect: 'none', // Add these properties
+        WebkitUserSelect: 'none', // for cross-browser
+        msUserSelect: 'none', // text selection
+        MozUserSelect: 'none', // prevention
       }}
     >
       <motion.div
