@@ -1,4 +1,4 @@
-const questions = [
+export const questionsEn: string[] = [
   'What is the smallest thing for which you are grateful?',
   'Who has had the most positive impact on your life?',
   'If you could use a time machine, would you rather have one that only goes back in time or only goes forward?',
@@ -308,5 +308,3 @@ const questions = [
   'What physical feature of yours would a caricature artist blow out of proportion?',
   'What is something you and I disagree on?',
 ];
-
-export { questions };

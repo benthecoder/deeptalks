@@ -1,7 +1,9 @@
 import './globals.css';
-import styles from './styles.module.css';
+import styles from '@/styles/styles.module.css';
 import { Inter } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/react';
+import { LanguageProvider } from './LanguageContext';
+import { SITE_METADATA } from '@/lib/constants';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -11,14 +13,12 @@ export const viewport = {
 };
 
 export const metadata = {
-  title: 'deeptalks',
-  description:
-    'Discover profound questions that spark meaningful dialogues and deep self-reflection.',
-  metadataBase: new URL('https://deeptalks.vercel.app'),
+  title: SITE_METADATA.title,
+  description: SITE_METADATA.description,
+  metadataBase: new URL(SITE_METADATA.url),
   openGraph: {
-    title: 'deeptalks',
-    description:
-      'Discover profound questions that spark meaningful dialogues and deep self-reflection.',
+    title: SITE_METADATA.title,
+    description: SITE_METADATA.description,
     type: 'website',
     locale: 'en_US',
     url: 'https://deeptalks.vercel.app',
@@ -34,9 +34,8 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'deeptalks',
-    description:
-      'Discover profound questions that spark meaningful dialogues and deep self-reflection.',
+    title: SITE_METADATA.title,
+    description: SITE_METADATA.description,
     creator: '@benxneo',
     images: [
       {
@@ -65,8 +64,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} ${styles.defaultBackground}`}>
-        {children}
-        <Analytics />
+        <LanguageProvider>
+          {children}
+          <Analytics />
+        </LanguageProvider>
       </body>
     </html>
   );

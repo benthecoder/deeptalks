@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Inter } from 'next/font/google';
 import { Domine } from 'next/font/google';
-import { colorPairs } from './colors';
-import styles from './styles.module.css';
+import { colorPairs } from '@/data/colors';
+import styles from '@/styles/styles.module.css';
+import { useColorTransition } from '@/hooks';
+import { USER_SELECT_STYLES } from '@/lib/constants';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,15 +21,7 @@ interface LandingPageProps {
 }
 
 export default function LandingPage({ onStart }: LandingPageProps) {
-  const [colorIndex, setColorIndex] = useState(0);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    setColorIndex(Math.floor(Math.random() * colorPairs.length));
-  }, []);
-
-  const [bgColor, textColor] = colorPairs[colorIndex];
+  const { bgColor, textColor, mounted } = useColorTransition();
 
   return (
     <motion.div
@@ -38,12 +31,7 @@ export default function LandingPage({ onStart }: LandingPageProps) {
       style={
         mounted
           ? {
-              backgroundColor: bgColor,
-              color: textColor,
-              userSelect: 'none',
-              WebkitUserSelect: 'none',
-              msUserSelect: 'none',
-              MozUserSelect: 'none',
+              ...USER_SELECT_STYLES,
             }
           : {}
       }
@@ -67,13 +55,13 @@ export default function LandingPage({ onStart }: LandingPageProps) {
           lovers, coworkers, nemeses, and yourself.
         </p>
         <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
           onClick={onStart}
-          className="px-10 py-4 text-xl sm:text-2xl rounded-xl transition-all duration-300"
+          className="px-8 py-3 text-lg sm:text-xl rounded-xl transition-all duration-300 backdrop-blur-sm"
           style={{
-            border: `1px solid ${mounted ? textColor : colorPairs[0][1]}40`,
-            backgroundColor: `${mounted ? textColor : colorPairs[0][1]}10`,
+            border: `1px solid ${mounted ? textColor : colorPairs[0][1]}30`,
+            backgroundColor: `${mounted ? textColor : colorPairs[0][1]}08`,
           }}
         >
           Start

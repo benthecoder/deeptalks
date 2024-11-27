@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import QuestionCards from './QuestionCards';
-import LandingPage from './LandingPage';
+import QuestionCards from './components/QuestionCards';
+import LandingPage from './components/LandingPage';
 
 export default function Home() {
   const [started, setStarted] = useState(false);
