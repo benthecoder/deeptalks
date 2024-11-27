@@ -13,13 +13,24 @@ export default function QuestionCards() {
   const [progress, setProgress] = useState(0);
   const [colorIndex, setColorIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [isHolding, setIsHolding] = useState(false);
+  const [mouseDownTime, setMouseDownTime] = useState(0);
 
   const handleMouseDown = () => {
     setIsPaused(true);
+    setIsHolding(true);
+    setMouseDownTime(Date.now());
   };
 
   const handleMouseUp = () => {
     setIsPaused(false);
+    setIsHolding(false);
+
+    // If mouse was down for less than 200ms, consider it a click
+    const isClick = Date.now() - mouseDownTime < 200;
+    if (isClick) {
+      goToNextQuestion();
+    }
   };
 
   const goToNextQuestion = () => {
@@ -52,7 +63,6 @@ export default function QuestionCards() {
   return (
     <div
       className={`min-h-screen flex flex-col items-center justify-center p-4 overflow-hidden cursor-pointer bg-grain ${inter.className}`}
-      onClick={goToNextQuestion}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
