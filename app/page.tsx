@@ -1,101 +1,124 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Inter } from 'next/font/google';
+
+const inter = Inter({ subsets: ['latin'] });
+import { questions } from './questions';
+
+const colorPairs = [
+  ['#1A1E2E', '#B8C0D4'], // Deep navy & cloud white
+  ['#2D1B2E', '#BFA8C0'], // Rich plum & soft lilac
+  ['#1E2C2B', '#A8C5C3'], // Dark teal & misty sage
+  ['#252333', '#B6B4C9'], // Midnight purple & lavender frost
+  ['#1D2733', '#A9B6C7'], // Ocean depth & morning blue
+  ['#2A1F2D', '#BFB4C2'], // Dark mulberry & pearl pink
+  ['#1F2C25', '#AFC5BA'], // Forest shadow & mint mist
+  ['#2C2126', '#C4B5BA'], // Dark rosewood & shell pink
+  ['#212E36', '#B0BDC5'], // Deep slate & arctic grey
+  ['#2B2A1F', '#C3C2B7'], // Dark olive & cream silk
+  ['#1E1F2D', '#B0B1BF'], // Night indigo & twilight grey
+  ['#2D2320', '#C5BBB8'], // Dark cocoa & almond cream
+  ['#1B2B32', '#A7B7BE'], // Dark cerulean & sea foam
+  ['#2E2633', '#C0BDC7'], // Dark amethyst & moon glow
+  ['#232E2A', '#B5C0BC'], // Dark emerald & morning frost
+  ['#2D1E1F', '#C5B6B7'], // Dark burgundy & rose dust
+  ['#1F2D2D', '#B1BFBF'], // Dark cyan & silver mist
+  ['#2B1D29', '#C3B5C1'], // Dark orchid & dawn pink
+  ['#202C1F', '#B2BEB1'], // Dark pine & sage frost
+  ['#2E2228', '#C6BAC0'], // Dark mahogany & pearl white
+];
+
+export default function QuestionCards() {
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [colorIndex, setColorIndex] = useState(0);
+
+  const getRandomIndex = (max: number, exclude: number): number => {
+    let newIndex;
+    do {
+      newIndex = Math.floor(Math.random() * max);
+    } while (newIndex === exclude);
+    return newIndex;
+  };
+
+  const goToNextQuestion = () => {
+    setCurrentQuestionIndex((prevIndex) =>
+      getRandomIndex(questions.length, prevIndex)
+    );
+    setColorIndex((prevIndex) => getRandomIndex(colorPairs.length, prevIndex));
+    setProgress(0);
+  };
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((oldProgress) => {
+        if (oldProgress === 100) {
+          setCurrentQuestionIndex((prevIndex) =>
+            getRandomIndex(questions.length, prevIndex)
+          );
+          setColorIndex((prevIndex) =>
+            getRandomIndex(colorPairs.length, prevIndex)
+          );
+          return 0;
+        }
+        return Math.min(oldProgress + 0.333, 100);
+      });
+    }, 100);
+
+    return () => clearInterval(timer);
+  }, [currentQuestionIndex]);
+
+  const [bgColor, textColor] = colorPairs[colorIndex];
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div
+      className={`min-h-screen flex flex-col items-center justify-center p-4 overflow-hidden cursor-pointer bg-grain ${inter.className}`}
+      onClick={goToNextQuestion}
+      style={{
+        backgroundColor: bgColor,
+        color: textColor,
+        transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+      }}
+    >
+      <motion.div
+        className="w-full max-w-3xl relative px-4 md:px-6"
+        initial={false}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentQuestionIndex}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="min-h-[200px] flex items-center justify-center py-8"
+          >
+            <p className="text-xl sm:text-4xl md:text-4xl text-center leading-relaxed font-light max-w-2xl mx-auto">
+              {questions[currentQuestionIndex]}
+            </p>
+          </motion.div>
+        </AnimatePresence>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+        <div className="fixed bottom-0 left-0 right-0 p-6">
+          <motion.div
+            className="w-full max-w-xl mx-auto h-[10px] overflow-hidden rounded-full opacity-50"
+            style={{ backgroundColor: `${textColor}15` }}
+            initial={false}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+            <motion.div
+              className="h-full"
+              style={{ backgroundColor: textColor }}
+              initial={{ width: 0 }}
+              animate={{ width: `${progress}%` }}
+              transition={{ duration: 0.1, ease: 'linear' }}
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          </motion.div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </motion.div>
     </div>
   );
 }
