@@ -1,0 +1,8 @@
+.defaultBackground {
+  background-color: #1a1e2e;
+  color: #b8c0d4;
+}
+
+.transition {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
