@@ -44,14 +44,14 @@ export default function LandingPage({ onStart }: LandingPageProps) {
         <h1
           className={`text-5xl sm:text-6xl lg:text-7xl font-bold ${domine.className}`}
         >
-          deeptalks
+          DeepTalks
         </h1>
         <p
           className={`max-w-xl mx-auto font-light text-lg sm:text-xl ${inter.className}`}
           style={{ opacity: 0.8 }}
         >
-          A list of interesting questions to better know your friends, family,
-          lovers, coworkers, nemeses, and yourself.
+          questions to better know your friends, family, lovers, coworkers,
+          nemeses, and yourself
         </p>
         <motion.button
           whileHover={{ scale: 1.02 }}
